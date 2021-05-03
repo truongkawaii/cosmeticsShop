@@ -1,0 +1,185 @@
+.account-tab{
+  &>h2{
+    font-size: 1.4993rem;
+    line-height: 1.334;
+    color: rgb(255, 255, 255);
+    font-weight: 600;
+  }
+  &>p{
+    color: rgb(255, 255, 255);
+    span{
+      color:  rgb(145, 158, 171);
+    }
+  }
+    padding-top: 20px;
+    .account-btns{
+        display: flex;
+        border-bottom: 1px solid  rgb(145, 158, 171);
+         .btn-ac{
+         
+             font-weight: 600;
+             font-size: 0.875rem;
+             line-height: 1.75;
+             text-transform: uppercase;
+             white-space: normal;
+             text-align: center;
+             color: rgb(145, 158, 171);
+             padding: 10px 15px;
+             margin-bottom: 0;
+             cursor: pointer;
+         }
+         .btn-ac.active{
+             color: rgb(104, 142, 255);
+             border-bottom: 2px solid  rgb(104, 142, 255);
+         }
+        
+    }
+    .account-tabs{
+        padding-top: 25px;
+        .tab-ac{
+          min-height: 90vh;
+            display: none;
+            padding: 0 25px 0 5px;
+            .active-item{
+              display: flex;
+            }
+            .left-card{
+            max-width: 22%;
+            flex-basis: 22%;
+            height: max-content;
+            background: #222B36;
+            border-radius: 24px;
+            padding: 12px;
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            .content-card{
+              width: 100%;
+            }
+            img{
+                border-radius: 50%;
+            }
+            h4{
+                font-weight: 500;
+                font-size: 0.875rem;
+                line-height: 1.57;
+                color: rgb(255, 255, 255);
+                margin-bottom: 0;
+            }
+            h6{
+                font-weight: 400;
+                font-size: 0.875rem;
+                line-height: 1.43;
+              
+                color: rgb(145, 158, 171);
+                span{
+                  color: rgb(104, 142, 255);
+                }
+            }
+            h5{
+              color: rgb(104, 142, 255);
+              font-weight: 600;
+              font-size: 0.875rem;
+              margin-top: 25px;
+              line-height: 1.75;
+              width: 100%;
+              margin-bottom: 0;
+              transition: 0.3s;
+              cursor: pointer;
+              padding: 5px 0;
+              border-radius: 8px;
+              &:hover{
+                background-color: rgba(104, 142, 255, 0.08);
+              }
+              
+              } 
+
+            }
+            .right-card{
+              background: #222B36;
+              max-width: 78%;
+            flex-basis: 78%;
+            border-radius: 25px;
+            margin-left: 18px;
+              h2{
+                padding: 18px;
+                width: 100%;
+                font-size: 18px;
+                color: white;
+                border-bottom: 1px solid rgba(145, 158, 171, 0.603);
+              }
+              .list-input{
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                padding: 25px;
+                input{
+                  font-size: 18px;
+                  padding: 12px 0 12px 10px;
+                  outline: none;
+                  border: none;
+                  background: #222B36;
+                  border: 1px solid rgba(145, 158, 171, 0.603);
+                  border-radius: 10px;
+                  color: white;
+                  margin: 25px 0;
+                  flex-basis: 48%;
+                  max-width: 48%;
+                  &:focus{
+                    border: 1px solid rgb(104, 142, 255);
+                  }
+                }
+              }
+              .list-info{
+                display: flex;
+                flex-wrap: wrap;
+                .detail-info{
+                  flex-basis: 50%;
+                  padding: 0 25px;
+                  max-width: 50%;
+                  padding-bottom: 25px;
+                  h3{
+                    font-weight: 500;
+                    font-size: 0.875rem;
+                    line-height: 1.57;
+                    color: rgb(255, 255, 255);
+                    margin: 0px 0px 0.35em;
+                  }
+                  p{
+                    margin: 0px;
+                  
+                    font-weight: 400;
+                    font-size: 0.875rem;
+                    line-height: 1.43;
+                    color: rgb(145, 158, 171);
+                  }
+            
+                }
+              }
+
+          
+              .btns{
+                display: flex;
+                justify-content: flex-end;
+               
+                padding: 20px 25px 15px 0;
+                border-top: 1px solid rgba(145, 158, 171, 0.603);
+                .btn{
+                  color: rgb(255, 255, 255);
+                  background-color: rgb(104, 142, 255);
+                  font-weight: 600;
+                  font-size: 0.875rem;
+                  line-height: 1.75;
+                  min-width: 64px;
+                  padding: 6px 16px;
+                  border-radius: 16px;
+                  
+                }
+              }
+            }
+        }
+        .tab-ac.active{
+            display: block;
+        }
+    }
+}
