@@ -44,7 +44,10 @@ const actions = {
   // Checkout
   ADD_COINS:'ADD_COINS',
   UPGRADE_VIP:'UPGRADE_VIP',
-  REMOVE_COINS:'REMOVE_COINS'
+  REMOVE_COINS:'REMOVE_COINS',
+  // Products 
+  GET_ALL_PRODUCT :'GET_ALL_PRODUCT',
+  GET_ALL_PRODUCT_SUCCESS :'GET_ALL_PRODUCT_SUCCESS',
 
 }
 export default actions;

@@ -8,3 +8,13 @@
         height: 100%;
     }
 }
+.main-wrapper{
+    .navbar{
+        width: 100%;
+        left: 0;
+    }
+    .d-flex.align-items-center.flex-wrap.text-nowrap {
+        display: flex;
+        flex-wrap: nowrap !important;
+    }
+}

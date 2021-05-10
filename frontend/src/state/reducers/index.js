@@ -5,6 +5,7 @@ import userReducer from './user';
 import dataUsersReducer from './dataUser';
 import dataRecruitment from './recruitment';
 import dataUserRec from './dataUserRec';
+import productReducer from './products';
 // Combine reducer 
 
 const rootReducer = combineReducers({
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
   infoUser:userReducer,
   listUser:dataUsersReducer,
   listRecruitment:dataRecruitment,
-  listUserSeedRec:dataUserRec
+  listUserSeedRec:dataUserRec,
+  products:productReducer
 });
  
 export default rootReducer;

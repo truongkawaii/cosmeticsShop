@@ -12,10 +12,11 @@ function* userLogin(action) {
   console.log(action, 'action');
   try {
     const res = yield call(UserService.login, action.payload);
-    const token = yield res.access_token;
+    const token = yield res;
+    console.log(token,'token');
     yield put(userLoginSuccess(token));
-    const infoUser = yield call(UserService.getProfile);
-    yield put(getProfileUserSuccess(infoUser));
+    // const infoUser = yield call(UserService.getProfile);
+    // yield put(getProfileUserSuccess(infoUser));
     yield toastSuccess('Đăng nhập thành công');
   } catch (error) {
     console.log('Đăng nhập thất bại');

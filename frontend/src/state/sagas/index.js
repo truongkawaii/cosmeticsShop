@@ -4,6 +4,7 @@ import loginSaga from './loginSaga';
 import handlerListUserSaga from './usersSaga';
 import feedBackSaga from './feedBackSaga';
 import handlerListRecruitmentSaga from './recruitment';
+import productSaga from './productSaga';
 
 export default function* rootSaga() {
   yield all([
@@ -11,6 +12,7 @@ export default function* rootSaga() {
     handlerJobSaga(),
     handlerListUserSaga(),
     feedBackSaga(), 
-    handlerListRecruitmentSaga()
+    handlerListRecruitmentSaga(),
+    productSaga()
   ]);
 }
