@@ -1,11 +1,24 @@
 import React, { Fragment } from 'react'
 import Search from '../Search/Search';
-import { Link } from 'react-router-dom';
+import { Link,useHistory } from 'react-router-dom';
+import { useSelector,useDispatch } from 'react-redux'
+import {userLogoutPage} from '../../state/actions/index'
+import { toastSuccess } from '../../Helper/toastHelper';
 import './Header.scss';
 
 
 
 function Header() {
+  const history = useHistory()
+  const dispatch = useDispatch()
+  const cartTotal = useSelector(state => state.cart.total)
+  const token = localStorage.getItem('token')
+  const handlerLogout = ()=>{
+    dispatch(userLogoutPage()) 
+    history.push('/login');
+    toastSuccess('Logout success');    
+    
+  }
   return (
     <Fragment>
       <Search />
@@ -28,8 +41,8 @@ function Header() {
                   <div
                     className="header-top-user-link header-top-user-link-color--white header-top-user-link-hover-color--green">
                     <a href="wishlist.html">Wishlist</a>
-                    <a href="cart.html">Cart</a>
-                    <a href="checkout.html">Checkout</a>
+                    <Link to="/cart" >Cart</Link>
+                    <Link to="/checkout">Checkout</Link>
                   </div>
                 </div>
               </div>
@@ -161,24 +174,19 @@ function Header() {
                                                         Right</a></li>
                           </ul>
                         </li>
-                        <li className="has-dropdown">
-                          <a href="#">Pages <i className="fa fa-angle-down"></i></a>
-                          {/* <!-- Sub Menu --> */}
-                          <ul className="sub-menu">
-                            <li><a href="faq.html">Frequently Questions</a></li>
-                            <li><a href="privacy-policy.html">Privacy Policy</a></li>
-                            <li><a href="404.html">404 Page</a></li>
-                          </ul>
-                        </li>
+                     
                         <li>
                           <a href="about-us.html">About Us</a>
                         </li>
                         <li>
-                          <a href="contact-us.html">Contact Us</a>
+                          <Link to="/contact">Contact Us</Link>
                         </li>
-                        <li>
+                        {!token ?<li>
                           <Link to="/login">Login</Link>
-                        </li>
+                        </li>:<li>
+                          <span  className="out" onClick={handlerLogout}>Logout</span>
+                        </li>}
+
                       </ul>
                     </nav>
                   </div>
@@ -193,10 +201,10 @@ function Header() {
                       </a>
                     </li>
                     <li>
-                      <a href="#offcanvas-add-cart" className="offcanvas-toggle">
+                      <Link to="/cart" className="offcanvas-toggle">
                         <i className="icon-bag"></i>
-                        <span className="item-count">3</span>
-                      </a>
+                        <span className="item-count">{cartTotal}</span>
+                      </Link>
                     </li>
                     <li>
                       <a href="#search">

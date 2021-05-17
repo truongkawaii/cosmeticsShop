@@ -11,8 +11,8 @@ import ProductsService from '../../Services/product.service';
 function* getListProducts() {
 
     try {
+        
         const res = yield call(ProductsService.listProducts);
-         
          yield put(getAllProductSuccess(res));
  
     } catch (error) { }

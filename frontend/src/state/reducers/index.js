@@ -6,6 +6,8 @@ import dataUsersReducer from './dataUser';
 import dataRecruitment from './recruitment';
 import dataUserRec from './dataUserRec';
 import productReducer from './products';
+import categoriesReducer from './categories';
+import cartReducer from './cart';
 // Combine reducer 
 
 const rootReducer = combineReducers({
@@ -15,7 +17,9 @@ const rootReducer = combineReducers({
   listUser:dataUsersReducer,
   listRecruitment:dataRecruitment,
   listUserSeedRec:dataUserRec,
-  products:productReducer
+  products:productReducer,
+  categories:categoriesReducer,
+  cart:cartReducer
 });
  
 export default rootReducer;

@@ -1,6 +1,6 @@
 import { axiosClient } from "./config.service"
 
-const items = [
+const products = [
     {
         name: "Sunscreen Milky Mist SPF 30+",
         description: "Lắc đều trước khi sử dụng. Lấy một lượng kem vừa đủ và thoa đều lên da 20 phút trước khi tiếp xúc với ánh nắng mặt trời.",
@@ -73,9 +73,36 @@ const items = [
     },
 
 ]
+
+
+const categories = [
+    {
+        name:'Baby Products',
+    },
+    {
+        name:'Bath Preparations',
+    },
+    {
+        name:'Eye Makeup Preparations',
+    },
+    {
+        name:'Fragrance Preparations',
+    },
+    {
+        name:'Manicuring Preparations',
+    },
+    {
+        name:'Makeup Preparations',
+    },
+]
 export const addFakeData = async () => {
-    for await (let item of items) {
+    for await (let item of products) {
         axiosClient.post('/items', { ...item })
     }
     // await
+}
+export const addCategoriesDemo = async()=>{
+  for await (let item of categories) {
+    axiosClient.post('/categories', { ...item })
+}
 }

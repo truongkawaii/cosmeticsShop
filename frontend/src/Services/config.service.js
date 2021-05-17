@@ -7,7 +7,7 @@ export const axiosClient = axios.create({
   headers: {
     'content-type': 'application/json',
     Accept: 'application/json',
-    'Access-Control-Allow-Origin': '*', 
+    // 'Access-Control-Allow-Origin': '*', 
     // 'Access-Control-Allow-Credentials': true,
   },
   paramsSerializer: params => {

@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import {Link} from 'react-router-dom';
 import './SideBar.scss'
 function SideBar() {
   return (
@@ -45,10 +46,10 @@ function SideBar() {
               </div>
             </li>
             <li className="nav-item">
-              <a href="pages/apps/chat.html" className="nav-link">
+              <Link to="/categories" className="nav-link">
                 <i className="link-icon" data-feather="message-square"></i>
-                <span className="link-title">Chat</span>
-              </a>
+                <span className="link-title">Category</span>
+              </Link>
             </li>
             <li className="nav-item">
               <a href="pages/apps/calendar.html" className="nav-link">
