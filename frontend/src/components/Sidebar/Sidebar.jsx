@@ -52,6 +52,12 @@ function SideBar() {
               </Link>
             </li>
             <li className="nav-item">
+              <Link to="/products-admin" className="nav-link">
+                <i className="link-icon" data-feather="codepen"></i>
+                <span className="link-title">Products</span>
+              </Link>
+            </li>
+            <li className="nav-item">
               <a href="pages/apps/calendar.html" className="nav-link">
                 <i className="link-icon" data-feather="calendar"></i>
                 <span className="link-title">Calendar</span>

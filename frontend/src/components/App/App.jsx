@@ -29,6 +29,7 @@ import Cart from '../../container/Cart/Cart';
 import Checkout from '../../container/Checkout/Checkout';
 import ContactUs from '../../container/ContactUs/ContactUs';
 import ProductDetail from '../../container/ProductDetail/ProductDetail';
+import ProductAdmin from '../../container/ProductAdmin/ProductAdmin';
 
 
 
@@ -62,6 +63,7 @@ function App() {
           <Route path="/checkout" exact={true} component={Checkout} />
           <Route path="/contact" exact={true} component={ContactUs} />
           <Route path="/product/:id" exact component={ProductDetail} />
+          <PrivateRoute path="/products-admin" exact component={ProductAdmin} />
         </Switch>
 
 
