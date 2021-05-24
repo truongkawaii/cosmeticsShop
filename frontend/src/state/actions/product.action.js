@@ -8,7 +8,19 @@ export const getAllProductSuccess = (payload) => ({
   type: actions.GET_ALL_PRODUCT_SUCCESS,
   payload
 })
-
+export const addNewProduct = (payload) => ({
+  type: actions.ADD_PRODUCT,
+  payload
+})
+export const removeProduct = (payload) => ({
+  type: actions.REMOVE_PRODUCT,
+  payload
+})
+export const editProduct = (payload) => ({
+  type: actions.EDIT_PRODUCT,
+  payload
+})
+ 
 export const paginationProduct = (payload) => ({
   type: actions.PAGINATION_DATA,
   payload

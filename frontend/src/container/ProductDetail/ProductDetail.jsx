@@ -109,7 +109,7 @@ function ProductDetail() {
                   {/* <!-- Product Variable Single Item --> */}
                   <div class="variable-single-item">
                     <div class="product-stock"> <span class="product-stock-in"><i
-                      class="ion-checkmark-circled"></i></span> 200 IN STOCK</div>
+                      class="ion-checkmark-circled"></i></span> {item?.count} IN STOCK</div>
                   </div>
                   {/* <!-- Product Variable Single Item --> */}
                   <div class="d-flex align-items-center ">

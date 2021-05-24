@@ -30,6 +30,8 @@ import Checkout from '../../container/Checkout/Checkout';
 import ContactUs from '../../container/ContactUs/ContactUs';
 import ProductDetail from '../../container/ProductDetail/ProductDetail';
 import ProductAdmin from '../../container/ProductAdmin/ProductAdmin';
+import AboutUs from '../../container/AboutUs/AboutUs';
+import { addBrandDemo, addCategoriesDemo, addFakeData } from '../../Services/fakeData';
 
 
 
@@ -42,6 +44,9 @@ function App() {
   //   }
   // }, [dispatch])
   useEffect(() => {
+    // addCategoriesDemo()
+    // addBrandDemo()
+    // addFakeData()
     dispatch(getAllProduct())
     dispatch(getListCategories())
     return () => {
@@ -52,7 +57,6 @@ function App() {
       <ToastContainer />
       <Router>
         <Switch>
-          
           <Route path="/" exact="true" component={Home} />
           <Route path="/products" exact={true} component={Products} />
           {/* <Route path="/admin" exact={true} component={Admin}/> */}
@@ -64,6 +68,7 @@ function App() {
           <Route path="/contact" exact={true} component={ContactUs} />
           <Route path="/product/:id" exact component={ProductDetail} />
           <PrivateRoute path="/products-admin" exact component={ProductAdmin} />
+          <Route path="/about-us" exact component={AboutUs} />
         </Switch>
 
 

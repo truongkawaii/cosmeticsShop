@@ -104,7 +104,7 @@ function SideBarProducts() {
       {/*  <!-- End Single Sidebar Widget --> */}
 
       {/* <!-- Start Single Sidebar Widget --> */}
-      <div className="sidebar-single-widget">
+      {/* <div className="sidebar-single-widget">
         <h6 className="sidebar-title">SELECT BY COLOR</h6>
         <div className="sidebar-content">
           <div className="filter-type-select">
@@ -143,6 +143,7 @@ function SideBarProducts() {
           </div>
         </div>
       </div>
+       */}
       {/* <!-- End Single Sidebar Widget --> */}
 
       {/* <!-- Start Single Sidebar Widget --> */}

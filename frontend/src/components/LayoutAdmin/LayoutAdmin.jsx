@@ -7,7 +7,6 @@ import Inbox from '../../components/Inbox/Inbox'
 import IntroAdmin from '../../components/IntroAdmin/IntroAdmin'
 import Revenue from '../../components/Revenue/Revenue' 
 import SideBar from '../../components/SideBar/SideBar'
-import Statistical from '../../components/Statistical/Statistical'
 import { Route, Redirect } from 'react-router-dom';
 function LayoutAdmin(props) {
   return (

@@ -2,56 +2,85 @@ import React, { useEffect, useState } from 'react'
 import BreadCrumb from '../../components/BreadCrumb/BreadCrumb'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
-import { Pagination, Spin, Space, Button, Modal } from 'antd';
-import { paginationProduct, removeCart, updateCartItem } from '../../state/actions'
+import { Pagination, Spin, Space, Button, Modal, Select } from 'antd';
+import { addNewProduct, removeProduct, paginationProduct,editProduct, removeCart, updateCartItem } from '../../state/actions'
 import './ProductAdmin.scss'
 import LayoutAdmin from '../../components/LayoutAdmin/LayoutAdmin';
 import UpfileService from '../../Services/upfile.service';
+import { axiosClient } from '../../Services/config.service';
+
+
+
+
 function ProductAdmin() {
+  const { Option } = Select;
   const dispatch = useDispatch();
   const products = useSelector(state => state.products.dataProductSort);
   const totalSize = useSelector(state => state.products.total);
-  const modalState = useSelector(state => state.products.showModal);
+  const categories = useSelector(state => state.categories.data);
   const perPage = useSelector(state => state.products.perPage);
   const [totalCart, setTotalCart] = useState(0);
-  const [itemCarts, setItemCarts] = useState(null);
+  const [editing, setEditing] = useState(false)
+  const [editImg, setEditImg] = useState(false)
+  const [productInput, setProductInput] = useState({
+    name: "",
+    description: "",
+    image: "",
+    count: 0,
+    price: 0,
+    branchId: 0,
+    categoryId: 0
+  })
+
+  const [brand, setBrand] = useState(null);
 
   const [visible, setVisible] = useState(false);
   useEffect(() => {
-
-    setItemCarts(products);
-    return () => {
+    let mounted = true;
+    const fetchBrand = async () => {
+      const data = await axiosClient.get('/branches');
+      setBrand(data)
     }
-  }, [products])
+    if (mounted) {
+      fetchBrand();
+    }
 
+    // setItemCarts(products);
+    return () => mounted = false;
+  }, [])
+  const onChangeProductIpnput = (e) => {
+    const val = e.target.value;
+    setProductInput({ ...productInput, [e.target.name]: parseInt(val) ? parseInt(val) : val })
+    console.log(productInput);
+  }
+  function handleChangeBrand(value) {
+    setProductInput({ ...productInput, branchId: parseInt(value) })
+    console.log(productInput);
+  }
+
+  function handleChangeCategory(value) {
+    console.log(`categories ${value}`);
+    setProductInput({ ...productInput, categoryId: parseInt(value) })
+    console.log(productInput);
+  }
+  console.log(brand);
 
   const handlerUpFile = async (e) => {
     let file = e.target.files[0];
-    const data = new FormData();
-    data.append('file', file)
-    try {
-      const res = await UpfileService.upfile(data);
-      console.log(res);
-    } catch (error) {
-
-    }
-    // function* handlerEditJob(action) {
-    //   const {file} = action.payload;
-    //   const jobData = action.payload;
-    //   const data = new FormData()
-    //   data.append('file', file)
-    //   try {
-    //     const res = yield call(UpfileService.upfile,data);
-    //     yield call(RecruitmentService.editJob,{...jobData,thumbnail:res.url});
-    //     yield toastSuccess('Tạo Job thành công!');
-    //     const listJob = yield call(RecruitmentService.listJob);
-    //     yield put(getAllJobSuccess(listJob))
-    //   } catch (error) {}
-    // }
-
+    setProductInput({ ...productInput, image: file })
+    setEditImg(true);
+  }
+  const handlerAddProduct = () => {
+    setVisible(false)
+    dispatch(addNewProduct(productInput))
+  }
+  const handlerEditProduct = () => {
+    dispatch(editProduct({item:productInput,editImg}))
+    setVisible(false)
   }
   const handlerRemoveItem = (id) => {
-    // const updateData = itemCarts.filter(item => item.id !== id);
+    // setEditing(true);
+    dispatch(removeProduct(id))
     // setItemCarts(updateData)
   }
 
@@ -68,39 +97,114 @@ function ProductAdmin() {
           src={item.image} alt="" /></a></td>
         <td className="product_name"><Link to={`/product/${item.id}`}>{item.name}</Link></td>
         <td className="product-price">{item.price}đ</td>
-        <td className="product_quantity">Bath Body</td>
+        <td className="product_quantity">{item.branch?.name || 'Bath Body'}</td>
+
+        {/* <th className="product-price">Quantity</th> */}
         <td className="product-price"> {item.count} </td>
         <td className="product_total">
-          <span><i className="fa fa-edit"></i></span>
-          <span><i className="fa fa-trash"></i></span>
+          <span className="btn-edit" onClick={() => openModalEdit(item)}><i className="fa fa-edit"></i></span>
         </td>
-        {/* <input type="text" value={data}/> */}
       </tr>
     })
     return { itemCart, totalPrice };
   }
-  const updateCart = () => {
 
-    // dispatch(updateCartItem(itemCarts))
-  }
   const handlerProductList = (page) => {
-    // dispatch(showModal())
     dispatch(paginationProduct(page));
   }
+  const openModalEdit = (item) => {
+
+    setProductInput({
+      id: item.id,
+      name: item.name,
+      branchId: item.branch.id,
+      categoryId: item.category.id,
+      count: item.count,
+      description: item.description,
+      price: item.price,
+      image: item.image,
+    });
+     
+    setEditing(true);
+    setVisible(true)
+  }
+  const openModal = () => {
+    setProductInput({
+      name: "",
+      description: "",
+      image: "",
+      count: 0,
+      price: 0,
+      branchId: 0,
+      categoryId: 0
+    })
+    setVisible(true)
+  }
+
+
   return (
     <LayoutAdmin>
-      <input type="file" onChange={handlerUpFile} />
+
       <Modal
-        title="Modal 1000px width"
+        title="Add new product"
         // centered
+
         visible={visible}
-        onOk={() => setVisible(false)}
-        onCancel={() => setVisible(false)}
+        onOk={() => {
+          editing ? handlerEditProduct() : handlerAddProduct();
+          setEditImg(false)
+        }}
+        onCancel={() => { setVisible(false); setEditing(false); setEditImg(false) }}
         width={1000}
       >
-        <p>some contents...</p>
-        <p>some contents...</p>
-        <p>some contents...</p>
+        <div className="row">
+          <div className="col-md-12 grid-margin stretch-card">
+            <div className="card">
+              <div className="card-body">
+                <form className="forms-sample">
+                  <div className="form-group">
+                    <label for="exampleInputUsername1">Name</label>
+                    <input type="text" name="name" className="form-control" onChange={onChangeProductIpnput} id="exampleInputUsername1" value={productInput.name} autocomplete="off" placeholder="Name" />
+                  </div>
+                  <div className="form-group">
+                    <label for="exampleInputEmail1">Price</label>
+                    <input type="number" name="price" onChange={onChangeProductIpnput} className="form-control" id="exampleInputEmail1" value={productInput.price} placeholder="Price" />
+                  </div>
+                  <div className="form-group">
+                    <label for="exampleInputEmail1">Number</label>
+                    <input type="number" name="count" onChange={onChangeProductIpnput} className="form-control" id="exampleInputEmail1" value={productInput.count} placeholder="Number" />
+                  </div>
+                  <div className="form-group">
+                    <label for="exampleInputEmail1">Description</label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" name="description" onChange={onChangeProductIpnput} value={productInput.description} placeholder="Description" ></textarea>
+
+                  </div>
+                  <div className="form-group">
+                    <label for="exampleInputPassword1">Select Category</label> <br />
+                    {categories && <Select placeholder="Select categories" defaultValue={editing ? productInput.categoryId : categories[0]?.id} style={{ width: 300 }} onChange={handleChangeBrand}>
+                      {categories?.map(item => <Option value={item.id} >{item.name}</Option>)}
+
+                    </Select>}
+                  </div>
+                  <div className="form-group">
+                    <label for="exampleInputPassword1">Select brand</label> <br />
+                    {brand && <Select placeholder="Select brand" defaultValue={editing ? productInput.branchId : brand[0]?.id} style={{ width: 300 }} onChange={handleChangeCategory}>
+                      {brand?.map(item => <Option value={item.id}>{item.name}</Option>)}
+
+                    </Select>
+                    }
+                  </div>
+                  <div className="form-group">
+                    <input type="file" onChange={handlerUpFile} />
+                  </div>
+                  {editing ? <img src={productInput.image} width="90" height="90" /> : null}
+
+                </form>
+              </div>
+            </div>
+
+          </div>
+        </div>
       </Modal>
       {/* <!-- ...:::: Start Cart Section:::... --> */}
       <div className="cart-section product-admin">
@@ -109,7 +213,7 @@ function ProductAdmin() {
         {/* <!-- Start Cart Table --> */}
         <div className="cart-table-wrapper" data-aos="fade-up" data-aos-delay="0">
           <div className="container">
-            <Button type="primary" className="btn-add-product" onClick={() => setVisible(true)}>Add New Product</Button>
+            <Button type="primary" className="btn-add-product" onClick={openModal}>Add New Product</Button>
             <div className="row">
               <div className="col-12">
                 <div className="table_desc">
@@ -123,13 +227,14 @@ function ProductAdmin() {
                           <th className="product_name">Product</th>
                           <th className="product-price">Price</th>
                           <th className="product_quantity">Brand</th>
+
                           <th className="product-price">Quantity</th>
                           <th className="product_total">Action</th>
                         </tr>
                       </thead>
                       {/* <!-- End Cart Table Head --> */}
                       <tbody>
-                        {itemCarts?.length === 0 && <h2 className="notice">No have items in cart</h2>}
+                        {products?.length === 0 && <h2 className="notice">No have items in cart</h2>}
                         {renderCart().itemCart}
 
 

@@ -18,6 +18,18 @@
         }
     }
 }
+#layout-list{
+    .product-list-img-link{
+        img{
+             max-width: 150px;
+        }
+    }
+    @media screen and(min-width:768px) {
+        .product-list-img-link{
+            // width: 100%;
+        }
+    }
+}
 .tab-pane{
     .ant-space{
         position: absolute;

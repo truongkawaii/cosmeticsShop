@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react'
 import Search from '../Search/Search';
-import { Link,useHistory } from 'react-router-dom';
-import { useSelector,useDispatch } from 'react-redux'
-import {userLogoutPage} from '../../state/actions/index'
+import { Link, useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux'
+import { userLogoutPage } from '../../state/actions/index'
 import { toastSuccess } from '../../Helper/toastHelper';
 import './Header.scss';
 
@@ -13,11 +13,11 @@ function Header() {
   const dispatch = useDispatch()
   const cartTotal = useSelector(state => state.cart.total)
   const token = localStorage.getItem('token')
-  const handlerLogout = ()=>{
-    dispatch(userLogoutPage()) 
+  const handlerLogout = () => {
+    dispatch(userLogoutPage())
     history.push('/login');
-    toastSuccess('Logout success');    
-    
+    toastSuccess('Logout success');
+
   }
   return (
     <Fragment>
@@ -67,15 +67,9 @@ function Header() {
                     <nav>
                       <ul>
                         <li className="has-dropdown">
-                          <Link className="active main-menu-link" to="/">Home <i
-                            className="fa fa-angle-down"></i></Link>
-                          {/* <!-- Sub Menu --> */}
-                          <ul className="sub-menu">
-                            <li><a href="index.html">Home 1</a></li>
-                            <li><a href="index-2.html">Home 2</a></li>
-                            <li><a href="index-3.html">Home 3</a></li>
-                            <li><a href="index-4.html">Home 4</a></li>
-                          </ul>
+                          <Link className="active main-menu-link" to="/">Home
+                          {/* <i className="fa fa-angle-down"></i> */}
+                          </Link>
                         </li>
                         <li className="has-dropdown has-megaitem">
                           <Link to="/products">Products<i
@@ -174,17 +168,18 @@ function Header() {
                                                         Right</a></li>
                           </ul>
                         </li>
-                     
+
                         <li>
-                          <a href="about-us.html">About Us</a>
+                          <Link to="/about-us">About Us</Link>
+
                         </li>
                         <li>
                           <Link to="/contact">Contact Us</Link>
                         </li>
-                        {!token ?<li>
+                        {!token ? <li>
                           <Link to="/login">Login</Link>
-                        </li>:<li>
-                          <span  className="out" onClick={handlerLogout}>Logout</span>
+                        </li> : <li>
+                          <span className="out" onClick={handlerLogout}>Logout</span>
                         </li>}
 
                       </ul>

@@ -45,7 +45,6 @@ const cart = (state = initialState, action) => {
       }
       else {
         localStorage.setItem('cart',JSON.stringify(  [...state.data, { ...item, count: 1 }]));
-        
         return {
           ...state,
           data: [...state.data, { ...item, count: 1 }],
