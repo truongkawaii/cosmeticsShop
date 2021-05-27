@@ -40,7 +40,9 @@ function* handlerAddProduct(action) {
     yield toastSuccess('Thêm sản phẩm mới thành công!');
     const res = yield call(ProductsService.listProducts);
     yield put(getAllProductSuccess(res));
-  } catch (error) { }
+  } catch (error) {
+    yield toastError('Thêm sản phẩm mới ko thành công!');
+   }
 }
 function* handlerEditProduct(action) {
  

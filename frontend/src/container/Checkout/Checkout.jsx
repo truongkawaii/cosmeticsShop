@@ -1,26 +1,43 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import BreadCrumb from '../../components/BreadCrumb/BreadCrumb'
 import Layout from '../../hoc/Layout/Layout'
 import { useDispatch, useSelector } from 'react-redux';
+import {useHistory } from 'react-router-dom'
 import './Checkout.scss'
+import { Select } from 'antd';
+import { toastError, toastSuccess } from '../../Helper/toastHelper';
+import { axiosClient } from '../../Services/config.service';
+import {clearAllCart} from '../../state/actions'
 
-
+const { Option } = Select;
 function Checkout() {
   const cart = useSelector(state => state.cart.data);
+  const dispatch = useDispatch()
+  const history = useHistory();
   const [inputState, setInputState] = useState({
     firstName: "",
     lastName: "",
     address: "",
     phone: "",
     email: "",
-    items: [
-      {
-        itemId: 0,
-        count: 0
-      }
-    ]
+    note: "",
+    paymentMethod: "ONLINE",
+    items: []
   })
 
+  useEffect(() => {
+    const listCart = cart?.map(item => ({
+      itemId: item.id,
+      count: item.count,
+    }));
+    setInputState({ ...inputState, items: [...listCart] })
+    // return () => {
+
+    // }
+  }, [])
+  function handleChange(value) {
+    console.log(`selected ${value}`);
+  }
   const renderItems = () => {
     let totalPrice = 0;
     const data = cart?.map(item => {
@@ -32,8 +49,24 @@ function Checkout() {
     })
 
     return { data, totalPrice }
-
   }
+
+  const handlerInputValue = (e) => {
+    setInputState({ ...inputState, [e.target.name]: e.target.value })
+    console.log(inputState);
+  }
+
+    const handlerCheckout =async ()=>{
+      try {
+       await axiosClient.post('/orders',inputState);
+       toastSuccess('Đặt hàng thành công')
+       dispatch(clearAllCart())
+       history.push('/checkoutSuccess');
+      } catch (error) {
+        toastError('Thanh toán thất bại')
+      }
+
+    }
   return (
     <Layout>
       <BreadCrumb title={'CHECKOUT'} />
@@ -51,90 +84,40 @@ function Checkout() {
                     <div className="col-lg-6">
                       <div className="default-form-box">
                         <label>First Name <span>*</span></label>
-                        <input type="text" />
+                        <input name="firstName" onChange={handlerInputValue} type="text" />
                       </div>
                     </div>
                     <div className="col-lg-6">
                       <div className="default-form-box">
                         <label>Last Name <span>*</span></label>
-                        <input type="text" />
+                        <input name="lastName" onChange={handlerInputValue} type="text" />
                       </div>
                     </div>
-                    {/* <div className="col-12">
-                      <div className="default-form-box">
-                        <label>Company Name</label>
-                        <input type="text" />
-                      </div>
-                    </div> */}
-                    {/* <div className="col-12">
-                      <div className="default-form-box">
-                        <label for="country">country <span>*</span></label>
-                        <select className="country_option nice-select wide" name="country" id="country">
-                          <option value="2">Bangladesh</option>
-                          <option value="3">Algeria</option>
-                          <option value="4">Afghanistan</option>
-                          <option value="5">Ghana</option>
-                          <option value="6">Albania</option>
-                          <option value="7">Bahrain</option>
-                          <option value="8">Colombia</option>
-                          <option value="9">Dominican Republic</option>
-                        </select>
-                      </div>
-                    </div> */}
+
                     <div className="col-12">
                       <div className="default-form-box">
                         <label>Address <span>*</span></label>
-                        <input placeholder="House number and street name" type="text" />
+                        <input name="address" onChange={handlerInputValue} placeholder="House number and street name" type="text" />
                       </div>
                     </div>
-                    {/* <div className="col-12">
-                      <div className="default-form-box">
-                        <input placeholder="Apartment, suite, unit etc. (optional)" type="text" />
-                      </div>
-                    </div> */}
-                    {/* <div className="col-12">
-                      <div className="default-form-box">
-                        <label>Town / City <span>*</span></label>
-                        <input type="text" />
-                      </div>
-                    </div>
-                    <div className="col-12">
-                      <div className="default-form-box">
-                        <label>State / County <span>*</span></label>
-                        <input type="text" />
-                      </div>
-                    </div> */}
+
                     <div className="col-lg-6">
                       <div className="default-form-box">
                         <label>Phone<span>*</span></label>
-                        <input type="text" />
+                        <input type="number" name="phone" onChange={handlerInputValue} />
                       </div>
                     </div>
                     <div className="col-lg-6">
                       <div className="default-form-box">
                         <label> Email Address <span>*</span></label>
-                        <input type="text" />
+                        <input type="text" name="email" onChange={handlerInputValue} />
                       </div>
                     </div>
-                    {/* <div className="col-12">
-                      <label className="checkbox-default" for="newAccount" data-bs-toggle="collapse"
-                        data-bs-target="#newAccountPassword">
-                        <input type="checkbox" id="newAccount" />
-                        <span>Create an account?</span>
-                      </label>
-                      <div id="newAccountPassword" className="collapse mt-3"
-                        data-parent="#newAccountPassword">
-                        <div className="card-body1 default-form-box">
-                          <label> Account password <span>*</span></label>
-                          <input placeholder="password" type="password" />
-                        </div>
-                      </div>
-                    </div> */}
-
                     <div className="col-12 mt-3">
                       <div className="order-notes">
                         <label for="order_note">Order Notes</label>
                         <textarea id="order_note"
+                          name="note" onChange={handlerInputValue}
                           placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
                       </div>
                     </div>
@@ -154,22 +137,6 @@ function Checkout() {
                       </thead>
                       <tbody>
                         {renderItems().data}
-                        {/* <tr>
-                          <td> Handbag fringilla <strong> × 2</strong></td>
-                          <td> $165.00</td>
-                        </tr>
-                        <tr>
-                          <td> Handbag justo <strong> × 2</strong></td>
-                          <td> $50.00</td>
-                        </tr>
-                        <tr>
-                          <td> Handbag elit <strong> × 2</strong></td>
-                          <td> $50.00</td>
-                        </tr>
-                        <tr>
-                          <td> Handbag Rutrum <strong> × 1</strong></td>
-                          <td> $50.00</td>
-                        </tr> */}
                       </tbody>
                       <tfoot>
                         <tr>
@@ -191,31 +158,24 @@ function Checkout() {
                     <div className="panel-default">
                       <label className="checkbox-default" for="currencyCod" data-bs-toggle="collapse"
                         data-bs-target="#methodCod">
-                        <input type="checkbox" id="currencyCod" />
+                        <input type="checkbox" id="currencyCod" onChange={e=>setInputState({...inputState,paymentMethod:e.target.checked?'OFFLINE':'ONLINE'})}/>
                         <span>Cash on Delivery</span>
                       </label>
 
                       <div id="methodCod" className="collapse" data-parent="#methodCod">
                         <div className="card-body1">
-                          <p>Please send a check to Store Name, Store Street, Store Town, Store State
-                                                / County, Store Postcode.</p>
+                          <p>Checkout with paypal.</p>
                         </div>
                       </div>
                     </div>
                     <div className="panel-default">
-                      <label className="checkbox-default" for="currencyPaypal" data-bs-toggle="collapse"
-                        data-bs-target="#methodPaypal">
-                        <input type="checkbox" id="currencyPaypal" />
-                        <span>PayPal</span>
-                      </label>
-                      <div id="methodPaypal" className="collapse " data-parent="#methodPaypal">
-                        <div className="card-body1">
-                          <p>Pay via PayPal; you can pay with your credit card if you don’t have a
-                                                PayPal account.</p>
-                        </div>
-                      </div>
+                      <p>You can make a bank transfer to the account below</p>
+                      <p>Chủ tk :<span className="tk-name"> Bùi Minh Thảo</span></p>
+                      <p>Viettelpay sdt: <span className="phone-number">0972801796</span> </p>
+                      <p>MB bank stk:  <span className="phone-number">9704229287525591</span></p>
+                      <p>VP bank stk:  <span className="phone-number">179531305</span></p>
                     </div>
-                    <div className="order_button pt-3">
+                    <div onClick={handlerCheckout} className="order_button pt-3">
                       <span className="btn btn-md btn-black-default-hover btn-pay" >Proceed to
                                         PayPal</span>
                     </div>

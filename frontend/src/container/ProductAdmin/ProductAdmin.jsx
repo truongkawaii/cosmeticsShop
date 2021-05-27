@@ -95,7 +95,7 @@ function ProductAdmin() {
         </td>
         <td className="product_thumb"><a href="product-details-default.html"><img
           src={item.image} alt="" /></a></td>
-        <td className="product_name"><Link to={`/product/${item.id}`}>{item.name}</Link></td>
+        <td className="product_name"><Link to={`/products/${item.id}`}>{item.name}</Link></td>
         <td className="product-price">{item.price}đ</td>
         <td className="product_quantity">{item.branch?.name || 'Bath Body'}</td>
 

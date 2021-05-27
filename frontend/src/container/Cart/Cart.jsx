@@ -21,7 +21,7 @@ function Cart() {
     }
     if (modal2) {
       modal2.classList.remove('modal-open')
-    }
+    } 
 
     setItemCarts(cart);
     return () => {
@@ -55,7 +55,7 @@ function Cart() {
         </td>
         <td className="product_thumb"><a href="product-details-default.html"><img
           src={item.image} alt="" /></a></td>
-        <td className="product_name"><Link to={`/product/${item.id}`}>{item.name}</Link></td>
+        <td className="product_name"><Link to={`/products/${item.id}`}>{item.name}</Link></td>
         <td className="product-price">{item.price}đ</td>
         <td className="product_quantity"><label>Quantity</label> <input min="1" max="100" onChange={(e) => changeQuantity(item.id, e.target.value)} placeholder={quantity}
           type="number" /></td>

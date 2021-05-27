@@ -1,17 +1,18 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import Search from '../Search/Search';
 import { Link, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
-import { userLogoutPage } from '../../state/actions/index'
+import { searchProductName, userLogoutPage } from '../../state/actions/index'
 import { toastSuccess } from '../../Helper/toastHelper';
 import './Header.scss';
-
+import { Modal,Input } from 'antd';
 
 
 function Header() {
   const history = useHistory()
   const dispatch = useDispatch()
   const cartTotal = useSelector(state => state.cart.total)
+  const [name,setName] = useState('');
   const token = localStorage.getItem('token')
   const handlerLogout = () => {
     dispatch(userLogoutPage())
@@ -19,8 +20,25 @@ function Header() {
     toastSuccess('Logout success');
 
   }
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+    dispatch(searchProductName(name))
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
   return (
     <Fragment>
+      <Modal visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+      <Input onChange={e=>setName(e.target.value)} placeholder="input name product"  />
+      </Modal>
       <Search />
       <div className="header-section d-none d-xl-block">
         <div className="header-wrapper">
@@ -189,12 +207,7 @@ function Header() {
 
                   {/* <!-- Start Header Action Link --> */}
                   <ul className="header-action-link action-color--black action-hover-color--green">
-                    <li>
-                      <a href="#offcanvas-wishlish" className="offcanvas-toggle">
-                        <i className="icon-heart"></i>
-                        <span className="item-count">3</span>
-                      </a>
-                    </li>
+                 
                     <li>
                       <Link to="/cart" className="offcanvas-toggle">
                         <i className="icon-bag"></i>
@@ -202,7 +215,7 @@ function Header() {
                       </Link>
                     </li>
                     <li>
-                      <a href="#search">
+                      <a href="#search" onClick={showModal}>
                         <i className="icon-magnifier"></i>
                       </a>
                     </li>

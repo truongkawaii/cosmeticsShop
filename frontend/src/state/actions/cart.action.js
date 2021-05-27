@@ -18,3 +18,4 @@ export const updateCartItem = (payload) => ({
 export const clearAllCart = ( ) => ({
     type: Actions.CLEAR_CART,
 })
+

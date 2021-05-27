@@ -141,7 +141,7 @@ function Products() {
                                 <div className="content">
                                   <div className="content-left">
                                     <h6 className="title"><a
-                                      href="product-details-default.html">{item.name}</a></h6>
+                                      href="product-details-default.html">{item.name.length>40?`${item.name.slice(0,40)}...`:item.name}</a></h6>
                                     <ul className="review-star">
                                       <li className="fill"><i className="ion-android-star"></i>
                                       </li>
@@ -179,7 +179,7 @@ function Products() {
                               {/* <!-- Start Product Defautlt Single --> */}
                               <div className="product-list-single product-color--golden"
                                 data-aos="fade-up" data-aos-delay="0">
-                                <Link  to={`/product/${item.id}`} 
+                                <Link  to={`/products/${item.id}`} 
                                   className="product-list-img-link">
                                   <img className="img-fluid"
                                     src={item.image}
@@ -190,7 +190,7 @@ function Products() {
                                 </Link>
                                 <div className="product-list-content">
                                   <h5 className="product-list-link"><Link
-                                    to={`/product/${item.id}`}>{item.name}</Link></h5>
+                                    to={`/products/${item.id}`}>{item.name}</Link></h5>
                                   <ul className="review-star">
                                     <li className="fill"><i className="ion-android-star"></i></li>
                                     <li className="fill"><i className="ion-android-star"></i></li>
@@ -198,8 +198,8 @@ function Products() {
                                     <li className="fill"><i className="ion-android-star"></i></li>
                                     <li className="empty"><i className="ion-android-star"></i></li>
                                   </ul>
-                                  <span className="product-list-price"><del>{item.price + 200000}</del>
-                                    {item.price}</span>
+                                  <span className="product-list-price"><del>{item.price + 200000}đ</del>
+                                    {item.price}đ</span>
                                   <p>{item.description}</p>
                                   <div className="product-action-icon-link-list">
                                     <a href="#" data-bs-toggle="modal"

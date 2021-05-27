@@ -34,3 +34,17 @@ export const hideModal = () => ({
 
 })
 
+export const filterCategory = (payload)=>({
+  type: actions.FILTER_CATEGORY,
+  payload,
+})
+
+export const searchProductName = (payload)=>({
+  type: actions.SEARCH_NAME_PRODUCT,
+  payload,
+})
+export const filterPrice = (payload)=>({
+  type: actions.FILTER_PRICE_PRODUCT,
+  payload,
+})
+

@@ -19,10 +19,10 @@ function SideBar() {
           <ul className="nav">
             <li className="nav-item nav-category">Main</li>
             <li className="nav-item">
-              <a href="dashboard-one.html" className="nav-link">
+              <Link to="/admin" className="nav-link">
                 <i className="link-icon" data-feather="box"></i>
                 <span className="link-title">Dashboard</span>
-              </a>
+              </Link>
             </li>
             <li className="nav-item nav-category">web apps</li>
             <li className="nav-item">
@@ -58,10 +58,10 @@ function SideBar() {
               </Link>
             </li>
             <li className="nav-item">
-              <a href="pages/apps/calendar.html" className="nav-link">
+              <Link to="/orders" className="nav-link">
                 <i className="link-icon" data-feather="calendar"></i>
-                <span className="link-title">Calendar</span>
-              </a>
+                <span className="link-title">Orders</span>
+              </Link>
             </li>
             <li className="nav-item nav-category">Components</li>
             <li className="nav-item">

@@ -10,6 +10,7 @@ import ModalCart from '../../components/ModalCart/ModalCart';
 function ProductDetail() {
   const dispatch = useDispatch();
   const data = useSelector(state=>state.products.data);
+ 
   let { id } = useParams();
   const [item,setItem] = useState(null);
   const cart = useSelector(state => state.cart.data);

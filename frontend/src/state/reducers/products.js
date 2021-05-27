@@ -10,15 +10,44 @@ const initialState = {
 function products(state = initialState, action) {
   switch (action.type) {
     case Actions.GET_ALL_PRODUCT_SUCCESS:
-      //   const {posts,total} = action.payload;  
-      const products = action.payload;
-      const pagiData = products.slice(0, 6);
+      {
+        const products = action.payload;
+        const pagiData = products.slice(0, 6);
+        return {
+          ...state,
+          data: action.payload,
+          dataProductSort: pagiData,
+          total: action.payload.length,
+        };
+      }
+      case Actions.FILTER_PRICE_PRODUCT:{
+        const value = action.payload;
+        const filterProduct =[...state.data]?.filter(item=>item.price>=parseInt(value))||[]
+        const pagiData = filterProduct.slice(0, 6);
+        return {
+          ...state,
+          dataProductSort: pagiData,
+        };
+      }
+    case Actions.SEARCH_NAME_PRODUCT: {
+      const name = action.payload;
+      const filterProduct = [...state.data].filter(item => item.name.toLowerCase().includes(name.toLowerCase()));
+      const pagiData = filterProduct.slice(0, 6);
       return {
         ...state,
-        data: action.payload,
         dataProductSort: pagiData,
-        total: action.payload.length,
       };
+    }
+    case Actions.FILTER_CATEGORY: {
+      const id = action.payload;
+      const filterProduct = [...state.data].filter(item => item.category.id === parseInt(id));
+      const pagiData = filterProduct.slice(0, 6);
+      return {
+        ...state,
+        dataProductSort: pagiData,
+      };
+    }
+
     case Actions.SHOW_MODAL: {
 
       return {
@@ -41,7 +70,7 @@ function products(state = initialState, action) {
       return {
         ...state,
         dataProductSort: newDataUpdate,
-        showModal:false
+        showModal: false
       };
     }
     default:

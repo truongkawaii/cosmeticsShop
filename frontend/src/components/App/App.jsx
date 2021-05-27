@@ -32,6 +32,8 @@ import ProductDetail from '../../container/ProductDetail/ProductDetail';
 import ProductAdmin from '../../container/ProductAdmin/ProductAdmin';
 import AboutUs from '../../container/AboutUs/AboutUs';
 import { addBrandDemo, addCategoriesDemo, addFakeData } from '../../Services/fakeData';
+import CheckoutSuccess from '../../container/CheckoutSuccess/CheckoutSuccess';
+import Orders from '../../container/Orders/Orders';
 
 
 
@@ -58,7 +60,7 @@ function App() {
       <Router>
         <Switch>
           <Route path="/" exact="true" component={Home} />
-          <Route path="/products" exact={true} component={Products} />
+          <Route path="/products" exact component={Products} />
           {/* <Route path="/admin" exact={true} component={Admin}/> */}
           <Route path="/login" exact={true} component={Login} />
           <PrivateRoute path="/admin" exact={true} component={Admin} />
@@ -66,8 +68,10 @@ function App() {
           <Route path="/cart" exact={true} component={Cart} />
           <Route path="/checkout" exact={true} component={Checkout} />
           <Route path="/contact" exact={true} component={ContactUs} />
-          <Route path="/product/:id" exact component={ProductDetail} />
+          <Route path="/products/:id" exact component={ProductDetail} />
+          <Route path="/checkoutSuccess" exact component={CheckoutSuccess} />
           <PrivateRoute path="/products-admin" exact component={ProductAdmin} />
+          <PrivateRoute path="/orders" exact component={Orders} />
           <Route path="/about-us" exact component={AboutUs} />
         </Switch>
 

@@ -1,8 +1,29 @@
-import React from 'react'
-import {  useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux';
+import { Link, useLocation, BrowserRouter as Router } from 'react-router-dom'
+import { toastSuccess } from '../../Helper/toastHelper';
+import { filterCategory,filterPrice } from '../../state/actions';
+import './SideBarProducts.scss'
+import { Slider, Switch } from 'antd';
 
 function SideBarProducts() {
   const categories = useSelector(state => state.categories.data);
+  // const location = useLocation()
+  const dispatch = useDispatch()
+
+  function useQuery() {
+    return new URLSearchParams(useLocation().search);
+  }
+  let query = useQuery();
+  // console.log(query.get('category'));
+
+  useEffect(() => {
+    if (query.get('category')) {
+      dispatch(filterCategory(query.get('category')))
+      // toastSuccess('Tồn tại ' + query.get('category'))
+    }
+  }, [query.get("category")])
+
   return (
     <div className="siderbar-section" data-aos="fade-up" data-aos-delay="0">
 
@@ -11,30 +32,12 @@ function SideBarProducts() {
         <h6 className="sidebar-title">CATEGORIES</h6>
         <div className="sidebar-content">
           <ul className="sidebar-menu">
-            {/* <li>
-                <ul className="sidebar-menu-collapse">
-                
-                  <li className="sidebar-menu-collapse-list">
-                    <div className="accordion">
-                      <a href="#" className="accordion-title collapsed"
-                        data-bs-toggle="collapse" data-bs-target="#men-fashion"
-                        aria-expanded="false">Men <i
-                          className="ion-ios-arrow-right"></i></a>
-                      <div id="men-fashion" className="collapse">
-                        <ul className="accordion-category-list">
-                          <li><a href="#">Dresses</a></li>
-                          <li><a href="#">Jackets &amp; Coats</a></li>
-                          <li><a href="#">Sweaters</a></li>
-                          <li><a href="#">Jeans</a></li>
-                          <li><a href="#">Blouses &amp; Shirts</a></li>
-                        </ul>
-                      </div>
-                    </div>
-                  </li>
-        
-                </ul>
-              </li> */}
-            {categories?.map(item => <li className="category-item" key={item.id}><span>{item.name}</span></li>)}
+
+            {categories?.map(item =>
+              <li className={item.id===parseInt(query.get('category'))?'category-item red':'category-item '} key={item.id}><Link to={location => {
+                return `${location.pathname}?category=${item.id}`
+              }}><span>{item.name}</span></Link></li>
+            )}
             {/* <li><a href="#">Football</a></li>
               <li><a href="#">Football</a></li>
               <li><a href="#"> Men's</a></li>
@@ -57,93 +60,13 @@ function SideBarProducts() {
           <div className="filter-type-price">
             <label for="amount">Price range:</label>
             <input type="text" id="amount" />
+            <br />
+          
           </div>
+          <Slider onAfterChange={value=>dispatch(filterPrice(value))} defaultValue={50000} step={10000} max={3000000} min={50000} disabled={false} />
         </div>
       </div>
-      {/* <!-- End Single Sidebar Widget --> */}
-
-      {/* <!-- Start Single Sidebar Widget --> */}
-      <div className="sidebar-single-widget">
-        <h6 className="sidebar-title">MANUFACTURER</h6>
-        <div className="sidebar-content">
-          <div className="filter-type-select">
-            <ul>
-              <li>
-                <label className="checkbox-default" for="brakeParts">
-                  <input type="checkbox" id="brakeParts" />
-                  <span>Brake Parts(6)</span>
-                </label>
-              </li>
-              <li>
-                <label className="checkbox-default" for="accessories">
-                  <input type="checkbox" id="accessories" />
-                  <span>Accessories (10)</span>
-                </label>
-              </li>
-              <li>
-                <label className="checkbox-default" for="EngineParts">
-                  <input type="checkbox" id="EngineParts" />
-                  <span>Engine Parts (4)</span>
-                </label>
-              </li>
-              <li>
-                <label className="checkbox-default" for="hermes">
-                  <input type="checkbox" id="hermes" />
-                  <span>hermes (10)</span>
-                </label>
-              </li>
-              <li>
-                <label className="checkbox-default" for="tommyHilfiger">
-                  <input type="checkbox" id="tommyHilfiger" />
-                  <span>Tommy Hilfiger(7)</span>
-                </label>
-              </li>
-            </ul>
-          </div>
-        </div></div>
-      {/*  <!-- End Single Sidebar Widget --> */}
-
-      {/* <!-- Start Single Sidebar Widget --> */}
-      {/* <div className="sidebar-single-widget">
-        <h6 className="sidebar-title">SELECT BY COLOR</h6>
-        <div className="sidebar-content">
-          <div className="filter-type-select">
-            <ul>
-              <li>
-                <label className="checkbox-default" for="black">
-                  <input type="checkbox" id="black" />
-                  <span>Black (6)</span>
-                </label>
-              </li>
-              <li>
-                <label className="checkbox-default" for="blue">
-                  <input type="checkbox" id="blue" />
-                  <span>Blue (8)</span>
-                </label>
-              </li>
-              <li>
-                <label className="checkbox-default" for="brown">
-                  <input type="checkbox" id="brown" />
-                  <span>Brown (10)</span>
-                </label>
-              </li>
-              <li>
-                <label className="checkbox-default" for="Green">
-                  <input type="checkbox" id="Green" />
-                  <span>Green (6)</span>
-                </label>
-              </li>
-              <li>
-                <label className="checkbox-default" for="pink">
-                  <input type="checkbox" id="pink" />
-                  <span>Pink (4)</span>
-                </label>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-       */}
+       
       {/* <!-- End Single Sidebar Widget --> */}
 
       {/* <!-- Start Single Sidebar Widget --> */}
